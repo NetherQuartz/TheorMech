@@ -22,7 +22,7 @@ function varargout = window(varargin)
 
 % Edit the above text to modify the response to help window
 
-% Last Modified by GUIDE v2.5 24-Mar-2020 21:22:51
+% Last Modified by GUIDE v2.5 24-Mar-2020 21:31:16
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -281,18 +281,18 @@ end
 
 
 
-function edit10_Callback(hObject, eventdata, handles)
-% hObject    handle to edit10 (see GCBO)
+function tstep_Callback(hObject, eventdata, handles)
+% hObject    handle to tstep (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of edit10 as text
-%        str2double(get(hObject,'String')) returns contents of edit10 as a double
+% Hints: get(hObject,'String') returns contents of tstep as text
+%        str2double(get(hObject,'String')) returns contents of tstep as a double
 
 
 % --- Executes during object creation, after setting all properties.
-function edit10_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit10 (see GCBO)
+function tstep_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to tstep (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -304,18 +304,18 @@ end
 
 
 
-function edit11_Callback(hObject, eventdata, handles)
-% hObject    handle to edit11 (see GCBO)
+function tend_Callback(hObject, eventdata, handles)
+% hObject    handle to tend (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of edit11 as text
-%        str2double(get(hObject,'String')) returns contents of edit11 as a double
+% Hints: get(hObject,'String') returns contents of tend as text
+%        str2double(get(hObject,'String')) returns contents of tend as a double
 
 
 % --- Executes during object creation, after setting all properties.
-function edit11_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit11 (see GCBO)
+function tend_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to tend (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -331,3 +331,52 @@ function startButton_Callback(hObject, eventdata, handles)
 % hObject    handle to startButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+cla; %очистка осей
+ 
+a = str2double(get(handles.a, 'String'));
+b = str2double(get(handles.b, 'String'));
+phi0 = str2double(get(handles.phi0, 'String'));
+theta0 = str2double(get(handles.theta0, 'String'));
+phi0_t = str2double(get(handles.phi0, 'String'));
+theta0_t = str2double(get(handles.theta0, 'String'));
+tstep = str2double(get(handles.tstep, 'String'));
+tend = str2double(get(handles.tend, 'String'));
+m = str2double(get(handles.m, 'String'));
+k = str2double(get(handles.k, 'String'));
+ 
+axis equal
+xlim([-10 10])
+ylim([-10 10])
+xlim manual
+ylim manual
+hold on
+ 
+t=0:tstep:tend;
+  
+% xC=a*cos(Phi);
+%  
+% xB=(a-b*sin(Theta)).*cos(Phi);
+% yB=b*cos(Theta);
+%  
+% xA=(a+b*sin(Theta)).*cos(Phi);
+% yA=-b*cos(Theta);
+%  
+% CD=plot([0 xC(1)],[0 0],'color',[0 0 1]);
+% AB=plot([xA(1) xB(1)],[yA(1) yB(1)],'color',[0 0 0]);
+%  
+% plot([0 0],[8 -8]);
+% C=plot(xC(1),0,'ro');
+% plot(0,0,'ro');
+%  
+% A=plot(xA(1),yA(1),'*','color',[0 0 0])
+% B=plot(xB(1),yB(1),'*','color',[0 0 0])
+%  
+% for i=1:length(t)
+%     set(CD,'XData',[0 xC(i)],'YData',[0 0]);
+%     set(AB,'XData',[xA(i) xB(i)],'YData',[yA(i) yB(i)]);
+%     set(C,'XData',xC(i),'YData',0)
+%     set(A,'XData',xA(i),'YData',yA(i))
+%     set(B,'XData',xB(i),'YData',yB(i))
+%     pause(0.01)
+% end
