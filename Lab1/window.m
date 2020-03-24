@@ -333,50 +333,57 @@ function startButton_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 cla; %очистка осей
- 
+
+global a b m k;
+
 a = str2double(get(handles.a, 'String'));
 b = str2double(get(handles.b, 'String'));
 phi0 = str2double(get(handles.phi0, 'String'));
 theta0 = str2double(get(handles.theta0, 'String'));
-phi0_t = str2double(get(handles.phi0, 'String'));
-theta0_t = str2double(get(handles.theta0, 'String'));
+phi0_t = str2double(get(handles.phi0t, 'String'));
+theta0_t = str2double(get(handles.theta0t, 'String'));
 tstep = str2double(get(handles.tstep, 'String'));
 tend = str2double(get(handles.tend, 'String'));
 m = str2double(get(handles.m, 'String'));
 k = str2double(get(handles.k, 'String'));
  
-axis equal
-xlim([-10 10])
-ylim([-10 10])
-xlim manual
-ylim manual
-hold on
+axis equal;
+xlim([-10 10]);
+ylim([-10 10]);
+xlim manual;
+ylim manual;
+hold on;
  
-t=0:tstep:tend;
-  
-% xC=a*cos(Phi);
-%  
-% xB=(a-b*sin(Theta)).*cos(Phi);
-% yB=b*cos(Theta);
-%  
-% xA=(a+b*sin(Theta)).*cos(Phi);
-% yA=-b*cos(Theta);
-%  
-% CD=plot([0 xC(1)],[0 0],'color',[0 0 1]);
-% AB=plot([xA(1) xB(1)],[yA(1) yB(1)],'color',[0 0 0]);
-%  
-% plot([0 0],[8 -8]);
-% C=plot(xC(1),0,'ro');
-% plot(0,0,'ro');
-%  
-% A=plot(xA(1),yA(1),'*','color',[0 0 0])
-% B=plot(xB(1),yB(1),'*','color',[0 0 0])
-%  
-% for i=1:length(t)
-%     set(CD,'XData',[0 xC(i)],'YData',[0 0]);
-%     set(AB,'XData',[xA(i) xB(i)],'YData',[yA(i) yB(i)]);
-%     set(C,'XData',xC(i),'YData',0)
-%     set(A,'XData',xA(i),'YData',yA(i))
-%     set(B,'XData',xB(i),'YData',yB(i))
-%     pause(0.01)
-% end
+t = 0:tstep:tend;
+y0 = [phi0 theta0 phi0_t theta0_t];
+[t, y] = ode45(@f, t, y0);
+
+phi = y(:, 1);
+theta = y(:, 2);
+
+xC = a*cos(phi);
+
+xB = (a - b*sin(theta)).*cos(phi);
+yB = b*cos(theta);
+
+xA = (a + b*sin(theta)).*cos(phi);
+yA = -b*cos(theta);
+
+CD = plot([0 xC(1)], [0 0], 'color', [0 0 1]);
+AB = plot([xA(1) xB(1)], [yA(1) yB(1)], 'color', [0 0 0]);
+
+plot([0 0], [8 -8]);
+C = plot(xC(1), 0, 'ro');
+plot(0, 0, 'ro');
+
+A = plot(xA(1), yA(1), '*', 'color', [0 0 0]);
+B = plot(xB(1), yB(1), '*', 'color', [0 0 0]);
+ 
+for i = 1:length(t)
+    set(CD, 'XData', [0 xC(i)], 'YData', [0 0]);
+    set(AB, 'XData', [xA(i) xB(i)], 'YData', [yA(i) yB(i)]);
+    set(C, 'XData', xC(i), 'YData', 0);
+    set(A, 'XData', xA(i), 'YData', yA(i));
+    set(B, 'XData', xB(i), 'YData', yB(i));
+    pause(0.01);
+end
