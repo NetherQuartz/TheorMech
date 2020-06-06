@@ -22,7 +22,7 @@ function varargout = window(varargin)
 
 % Edit the above text to modify the response to help window
 
-% Last Modified by GUIDE v2.5 24-Mar-2020 21:31:16
+% Last Modified by GUIDE v2.5 06-Jun-2020 11:55:51
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -387,3 +387,107 @@ for i = 1:length(t)
     set(B, 'XData', xB(i), 'YData', yB(i));
     pause(0.01);
 end
+
+
+% --- Executes on button press in phi_btn.
+function phi_btn_Callback(hObject, eventdata, handles)
+% hObject    handle to phi_btn (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+global a b m k;
+
+a = str2double(get(handles.a, 'String'));
+b = str2double(get(handles.b, 'String'));
+phi0 = str2double(get(handles.phi0, 'String'));
+phi0_t = str2double(get(handles.phi0t, 'String'));
+theta0 = str2double(get(handles.theta0, 'String'));
+theta0_t = str2double(get(handles.theta0t, 'String'));
+tstep = str2double(get(handles.tstep, 'String'));
+tend = str2double(get(handles.tend, 'String'));
+m = str2double(get(handles.m, 'String'));
+k = str2double(get(handles.k, 'String'));
+
+t = 0:tstep:tend;
+y0 = [phi0 theta0 phi0_t theta0_t];
+[t, y] = ode45(@f, t, y0);
+
+phi = y(:, 1);
+
+figure('Name','phi(t)');
+axis equal;
+plot(t, phi);
+xlabel('t');
+ylabel('phi(t)');
+grid on;
+
+
+% --- Executes on button press in N_btn.
+function N_btn_Callback(hObject, eventdata, handles)
+% hObject    handle to N_btn (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+global a b m k;
+
+a = str2double(get(handles.a, 'String'));
+b = str2double(get(handles.b, 'String'));
+phi0 = str2double(get(handles.phi0, 'String'));
+phi0_t = str2double(get(handles.phi0t, 'String'));
+theta0 = str2double(get(handles.theta0, 'String'));
+theta0_t = str2double(get(handles.theta0t, 'String'));
+tstep = str2double(get(handles.tstep, 'String'));
+tend = str2double(get(handles.tend, 'String'));
+m = str2double(get(handles.m, 'String'));
+k = str2double(get(handles.k, 'String'));
+
+t = 0:tstep:tend;
+y0 = [phi0 theta0 phi0_t theta0_t];
+[t, y] = ode45(@f, t, y0);
+
+for i = 1:length(t)
+    res(i, :) = f(t(i), y(i, :));
+end
+phi_tt = res(:, 3);
+phi_t = res(:, 1);
+N = 2.*a.*(m.*phi_tt + k.*phi_t);
+
+figure('Name','N(t)');
+axis equal;
+plot(t, N);
+xlabel('t');
+ylabel('N(t)');
+grid on;
+
+
+% --- Executes on button press in theta_btn.
+function theta_btn_Callback(hObject, eventdata, handles)
+% hObject    handle to theta_btn (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+global a b m k;
+
+a = str2double(get(handles.a, 'String'));
+b = str2double(get(handles.b, 'String'));
+phi0 = str2double(get(handles.phi0, 'String'));
+phi0_t = str2double(get(handles.phi0t, 'String'));
+theta0 = str2double(get(handles.theta0, 'String'));
+theta0_t = str2double(get(handles.theta0t, 'String'));
+tstep = str2double(get(handles.tstep, 'String'));
+tend = str2double(get(handles.tend, 'String'));
+m = str2double(get(handles.m, 'String'));
+k = str2double(get(handles.k, 'String'));
+
+t = 0:tstep:tend;
+y0 = [phi0 theta0 phi0_t theta0_t];
+[t, y] = ode45(@f, t, y0);
+
+theta = y(:, 2);
+
+figure('Name','theta(t)');
+axis equal;
+plot(t, theta);
+xlabel('t');
+ylabel('theta(t)');
+grid on;
